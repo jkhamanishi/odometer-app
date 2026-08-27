@@ -135,7 +135,48 @@ button:disabled {
 }
 
 /* Container & Button Styles */
-.btn-crop-scan {
+.hidden-input {
+  display: none;
+}
+
+/* Toggled to `block` inline by fileHandler.ts */
+#previewContainer,
+#croppedPreviewContainer,
+#processedPreviewContainer,
+#debugOcrContainer {
+  display: none;
+}
+
+#previewContainer {
+  margin-top: 14px;
+}
+
+.image-preview {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.image-preview-label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.image-preview-frame {
+  display: inline-block;
+  border: 2px solid #28a745;
+  border-radius: 6px;
+  padding: 4px;
+  background: #fff;
+  max-width: 100%;
+}
+
+#processedPreviewWrapper {
+  border-color: #007bff;
+}
+
+.btn-step {
   margin-top: 12px;
   width: 100%;
   padding: 12px;
@@ -148,8 +189,35 @@ button:disabled {
   transition: background-color 0.2s ease;
 }
 
-.btn-crop-scan:hover {
+.btn-step:hover:not(:disabled) {
   background-color: #218838;
+}
+
+.btn-step:disabled {
+  background-color: #b5c4b8;
+  cursor: not-allowed;
+}
+
+.debug-steps {
+  margin-top: 14px;
+  background: #eef2f5;
+  border: 1px solid #ccd5ae;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.debug-steps > summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.debug-steps-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
 }
 
 .ocr-status {

@@ -41,7 +41,7 @@ export function setupCropperInstance(
     setupPointerHandlers(container);
 
     if (onReadyMessage) {
-      onReadyMessage("📐 Touch and drag over the odometer digits, then tap 'Crop & Scan'.");
+      onReadyMessage("📐 Touch and drag over the odometer digits, then tap 'Crop Selection'.");
     }
   };
 }

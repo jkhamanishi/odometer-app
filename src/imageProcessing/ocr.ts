@@ -14,7 +14,16 @@ export async function performOdometerOCR(
   croppedCanvas: HTMLCanvasElement
 ): Promise<OCRResult> {
   const { finalCanvas, debugSteps } = processImage(croppedCanvas);
+  const text = await recognizeDigits(finalCanvas);
 
+  return {
+    text,
+    processedCanvas: finalCanvas,
+    debugSteps,
+  };
+}
+
+export async function recognizeDigits(processedCanvas: HTMLCanvasElement): Promise<string> {
   const langPath = import.meta.env.DEV 
     ? new URL(enPath+"/..", import.meta.url).href 
     : undefined;
@@ -27,14 +36,8 @@ export async function performOdometerOCR(
     tessedit_pageseg_mode: '7' as any,
   });
 
-  const { data } = await worker.recognize(finalCanvas);
+  const { data } = await worker.recognize(processedCanvas);
   await worker.terminate();
 
-  const extractedDigits = data.text.replace(/\D/g, '');
-
-  return {
-    text: extractedDigits,
-    processedCanvas: finalCanvas,
-    debugSteps,
-  };
+  return data.text.replace(/\D/g, '');
 }

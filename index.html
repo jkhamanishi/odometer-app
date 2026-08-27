@@ -22,32 +22,44 @@
           <p id="fileNameDisplay" class="file-name">No photo selected</p>
 
           <!-- Photo Preview Element -->
-          <div id="previewContainer" style="display: none; margin-top: 14px;">
+          <div id="previewContainer">
             <div id="cropperWrapper" class="cropper-wrapper"></div>
 
-            <button type="button" id="btnCropScan" class="btn-crop-scan">
-              🔍 Crop & Scan Selection
+            <button type="button" id="btnCrop" class="btn-step">
+              ✂️ 1. Crop Selection
             </button>
 
             <!-- Live Crop Preview Container -->
-            <div id="croppedPreviewContainer" style="display: none; margin-top: 12px; text-align: center;">
-              <p style="font-size: 0.8rem; color: #666; margin-bottom: 4px; font-weight: bold;">Cropped Selection:</p>
-              <div id="croppedPreviewWrapper" style="display: inline-block; border: 2px solid #28a745; border-radius: 6px; padding: 4px; background: #fff; max-width: 100%;"></div>
+            <div id="croppedPreviewContainer" class="image-preview">
+              <p class="image-preview-label">Cropped Selection:</p>
+              <div id="croppedPreviewWrapper" class="image-preview-frame"></div>
             </div>
 
+            <button type="button" id="btnProcess" class="btn-step" disabled>
+              🎛️ 2. Process Image
+            </button>
+
             <!-- Processed OCR Debug Canvas Container -->
-            <div id="debugOcrContainer" style="display: none; margin-top: 14px; text-align: center;">
-              <p style="font-size: 0.85rem; color: #333; margin-bottom: 8px; font-weight: bold;">
-                Pipeline Intermediate Steps:
-              </p>
-              <div id="debugOcrWrapper" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; background: #eef2f5; padding: 10px; border-radius: 8px; border: 1px solid #ccd5ae;"></div>
+            <details id="debugOcrContainer" class="debug-steps">
+              <summary>Pipeline Intermediate Steps</summary>
+              <div id="debugOcrWrapper" class="debug-steps-body"></div>
+            </details>
+
+            <!-- Final Processed Image -->
+            <div id="processedPreviewContainer" class="image-preview">
+              <p class="image-preview-label">Final Processed Image:</p>
+              <div id="processedPreviewWrapper" class="image-preview-frame"></div>
             </div>
+
+            <button type="button" id="btnRead" class="btn-step" disabled>
+              🔍 3. Read Image
+            </button>
 
             <p id="ocrStatus" class="ocr-status"></p>
           </div>
 
-          <input type="file" id="inputGallery" accept="image/*" style="display: none;" />
-          <input type="file" id="inputCamera" accept="image/*" capture="environment" style="display: none;" />
+          <input type="file" id="inputGallery" class="hidden-input" accept="image/*" />
+          <input type="file" id="inputCamera" class="hidden-input" accept="image/*" capture="environment" />
         </div>
 
         <br/>
