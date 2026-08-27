@@ -68,18 +68,38 @@ async function cropSelection(): Promise<void> {
   if (ocrStatus) ocrStatus.innerText = '✂️ Cropped. Now process the image.';
 }
 
-function runProcessing(): void {
+async function runProcessing(): Promise<void> {
   const ocrStatus = document.getElementById('ocrStatus') as HTMLParagraphElement | null;
   if (!croppedCanvas) return;
 
-  const { finalCanvas, debugSteps } = processImage(croppedCanvas);
-  processedCanvas = finalCanvas;
+  const btnProcess = document.getElementById('btnProcess') as HTMLButtonElement | null;
+  const originalLabel = btnProcess?.innerText;
 
-  renderIntermediateSteps(debugSteps);
-  renderProcessedPreview(finalCanvas);
-  setStageEnabled('btnRead', true);
+  if (btnProcess) {
+    btnProcess.disabled = true;
+    btnProcess.setAttribute('aria-busy', 'true');
+  }
+  if (ocrStatus) ocrStatus.innerText = 'Processing image...';
 
-  if (ocrStatus) ocrStatus.innerText = '🎛️ Processed. Now read the image.';
+  // Run the pipeline in the next task so the status update can render first.
+  await new Promise<void>((resolve) => setTimeout(resolve, 0));
+
+  try {
+    const { finalCanvas, debugSteps } = processImage(croppedCanvas);
+    processedCanvas = finalCanvas;
+
+    renderIntermediateSteps(debugSteps);
+    renderProcessedPreview(finalCanvas);
+    setStageEnabled('btnRead', true);
+
+    if (ocrStatus) ocrStatus.innerText = '🎛️ Processed. Now read the image.';
+  } finally {
+    if (btnProcess) {
+      btnProcess.innerText = originalLabel ?? '🎛️ 2. Process Image';
+      btnProcess.removeAttribute('aria-busy');
+      btnProcess.disabled = false;
+    }
+  }
 }
 
 async function readProcessedImage(onOdometerDetected: (value: string) => void): Promise<void> {
