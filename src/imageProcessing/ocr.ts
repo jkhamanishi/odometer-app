@@ -1,20 +1,27 @@
 import { createWorker } from 'tesseract.js';
-import { preprocessOdometerImage, PreprocessDebugSteps, PreprocessResult } from './imageProcessor';
+import enPath from '@tesseract.js-data/eng/4.0.0_best_int/eng.traineddata.gz?url';
+import { processImage, ProcessDebugSteps, FinalProcessResult } from './processImage';
 
-export type { PreprocessDebugSteps, PreprocessResult };
+export type { ProcessDebugSteps as PreprocessDebugSteps, FinalProcessResult as PreprocessResult };
 
 export interface OCRResult {
   text: string;
   processedCanvas: HTMLCanvasElement;
-  debugSteps: PreprocessDebugSteps;
+  debugSteps: ProcessDebugSteps;
 }
 
 export async function performOdometerOCR(
   croppedCanvas: HTMLCanvasElement
 ): Promise<OCRResult> {
-  const { finalCanvas, debugSteps }: PreprocessResult = preprocessOdometerImage(croppedCanvas);
+  const { finalCanvas, debugSteps } = processImage(croppedCanvas);
 
-  const worker = await createWorker('eng');
+  const langPath = import.meta.env.DEV 
+    ? new URL(enPath+"/..", import.meta.url).href 
+    : undefined;
+
+  const worker = await createWorker('eng', 1, { langPath });
+
+  // cspell:words tessedit pageseg traineddata
   await worker.setParameters({
     tessedit_char_whitelist: '0123456789',
     tessedit_pageseg_mode: '7' as any,

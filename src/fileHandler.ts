@@ -1,4 +1,4 @@
-import { performOdometerOCR, PreprocessDebugSteps } from './ocr';
+import { performOdometerOCR, PreprocessDebugSteps } from './imageProcessing/ocr';
 import { setupCropperInstance, getCroppedNativeCanvas, destroyCropper } from './cropperManager';
 
 let selectedFile: File | null = null;

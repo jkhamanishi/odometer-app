@@ -1,8 +1,10 @@
-export function binarize(sourceImageData: ImageData, width: number, height: number): ImageData {
+import { Processor } from "./processor";
+
+export function binarySegmentation(sourceImageData: ImageData, width: number, height: number): ImageData {
   const data = sourceImageData.data;
   const numPixels = width * height;
   const grays = new Uint8Array(numPixels);
-
+  
   let sum = 0;
   for (let i = 0; i < numPixels; i++) {
     const idx = i * 4;
@@ -10,11 +12,11 @@ export function binarize(sourceImageData: ImageData, width: number, height: numb
     grays[i] = g;
     sum += g;
   }
-
+  
   const threshold = (sum / numPixels) * 1.08;
   const output = new ImageData(width, height);
   const outData = output.data;
-
+  
   for (let i = 0; i < numPixels; i++) {
     const idx = i * 4;
     const val = grays[i] < threshold ? 0 : 255;
@@ -23,6 +25,16 @@ export function binarize(sourceImageData: ImageData, width: number, height: numb
     outData[idx + 2] = val;
     outData[idx + 3] = 255;
   }
-
+  
   return output;
+}
+
+export class BinarySegmenter extends Processor {
+  process() {
+    const sourceImgData = this.source.imgData;
+    const imgData = binarySegmentation(sourceImgData, this.width, this.height);
+    
+    this.ctx.putImageData(imgData, 0, 0);
+    return this.createResult(imgData);
+  }
 }
