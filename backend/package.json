@@ -1,0 +1,14 @@
+{
+  "name": "odometer-app-backend",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "push": "clasp push",
+    "pull": "clasp pull",
+    "watch": "clasp push -w"
+  },
+  "devDependencies": {
+    "@google/clasp": "^3.4.0"
+  }
+}
