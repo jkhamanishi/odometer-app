@@ -1,5 +1,4 @@
-import { recognizeDigits, PreprocessDebugSteps } from './imageProcessing/ocr';
-import { processImage } from './imageProcessing/processImage';
+import { processImage, recognizeDigits, ProcessDebugSteps } from './imageProcessing';
 import { setupCropperInstance, getCroppedNativeCanvas, destroyCropper } from './cropperManager';
 
 let selectedFile: File | null = null;
@@ -190,7 +189,7 @@ function hideIntermediateSteps(): void {
   }
 }
 
-function renderIntermediateSteps(debugSteps: PreprocessDebugSteps): void {
+function renderIntermediateSteps(debugSteps: ProcessDebugSteps): void {
   const debugContainer = document.getElementById('debugOcrContainer') as HTMLDetailsElement | null;
   const debugWrapper = document.getElementById('debugOcrWrapper');
 
