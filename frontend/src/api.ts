@@ -1,4 +1,16 @@
-import { Payload, ApiResponse } from './types';
+export interface Payload {
+  odometer: string;
+  readingDate: string;
+  readingTime: string;
+  image: string | null;
+  fileName: string | null;
+}
+
+export interface ApiResponse {
+  status: 'success' | 'error';
+  message?: string;
+  fileUrl?: string;
+}
 
 const SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
 

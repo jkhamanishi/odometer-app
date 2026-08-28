@@ -11,5 +11,8 @@
     "pull": "npm --prefix backend run pull",
     "push": "npm --prefix backend run push",
     "watch": "npm --prefix backend run watch"
+  },
+  "dependencies": {
+    "exifr": "^7.1.3"
   }
 }

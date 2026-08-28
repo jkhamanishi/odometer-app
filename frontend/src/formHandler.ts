@@ -1,10 +1,11 @@
-import { Payload } from './types';
-import { submitOdometerData, convertToBase64 } from './api';
+import { submitOdometerData, convertToBase64, type Payload } from './api';
 import { getSelectedFile, resetFileUI } from './fileHandler';
 
 export function initFormHandler(): void {
   const form = document.getElementById('odometerForm') as HTMLFormElement | null;
   const odometerInput = document.getElementById('odometer') as HTMLInputElement | null;
+  const readingDateInput = document.getElementById('readingDate') as HTMLInputElement | null;
+  const readingTimeInput = document.getElementById('readingTime') as HTMLInputElement | null;
   const statusText = document.getElementById('status') as HTMLParagraphElement | null;
   const submitBtn = document.getElementById('submitBtn') as HTMLButtonElement | null;
 
@@ -13,7 +14,7 @@ export function initFormHandler(): void {
   form.addEventListener('submit', async (e: SubmitEvent) => {
     e.preventDefault();
 
-    if (!statusText || !submitBtn || !odometerInput) return;
+    if (!statusText || !submitBtn || !odometerInput || !readingDateInput || !readingTimeInput) return;
 
     statusText.innerText = 'Uploading data...';
     submitBtn.disabled = true;
@@ -29,6 +30,8 @@ export function initFormHandler(): void {
 
     const payload: Payload = {
       odometer: odometerInput.value,
+      readingDate: readingDateInput.value,
+      readingTime: readingTimeInput.value,
       image: base64Image,
       fileName: fileName
     };
