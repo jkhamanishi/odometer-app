@@ -30,6 +30,8 @@ export function binarySegmentation(sourceImageData: ImageData, width: number, he
 }
 
 export class BinarySegmenter extends Processor {
+  resultLabel = "Binary Segmented";
+  
   process() {
     const sourceImgData = this.source.imgData;
     const imgData = binarySegmentation(sourceImgData, this.width, this.height);

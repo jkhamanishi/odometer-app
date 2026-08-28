@@ -16,6 +16,8 @@ export function applyContrast(sourceImageData: ImageData, contrast = 1.15): Imag
 }
 
 export class Contrast extends Processor {
+  resultLabel = "High Contrast";
+  
   process() {
     const imgData = applyContrast(this.source.imgData);
     

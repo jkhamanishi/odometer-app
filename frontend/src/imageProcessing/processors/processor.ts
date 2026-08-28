@@ -1,21 +1,29 @@
 export interface ProcessResult {
+  title: string;
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   imgData: ImageData;
 }
 
-export type ProcessorConstructor = new (width: number, height: number, source: ProcessResult) => Processor;
+export interface Dimensions {
+  width: number;
+  height: number;
+}
+
+export type ProcessorConstructor = new (dimensions: Dimensions, source: ProcessResult) => Processor;
 
 export abstract class Processor {
+  abstract resultLabel: string;
+  
   protected width: number;
   protected height: number;
   protected canvas: HTMLCanvasElement;
   protected ctx: CanvasRenderingContext2D;
   protected source: ProcessResult;
   
-  constructor(width: number, height: number, source: ProcessResult) {
-    this.width = width;
-    this.height = height;
+  constructor(dimensions: Dimensions, source: ProcessResult) {
+    this.width = dimensions.width;
+    this.height = dimensions.height;
     this.canvas = this.createCanvas();
     this.ctx = this.getContext();
     this.source = source;
@@ -37,6 +45,7 @@ export abstract class Processor {
   protected createResult(imgData: ImageData): ProcessResult {
     this.ctx.putImageData(imgData, 0, 0);
     return {
+      title: this.resultLabel,
       canvas: this.canvas,
       ctx: this.ctx,
       imgData,

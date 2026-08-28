@@ -57,6 +57,8 @@ export function reduceNoise(
 }
 
 export class NoiseReducer extends Processor {
+  resultLabel = "Noise Removed";
+  
   process() {
     const sourceImgData = this.source.imgData;
     const imgData = reduceNoise(this.ctx, sourceImgData, this.width, this.height);

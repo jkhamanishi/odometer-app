@@ -57,6 +57,8 @@ export function floodFillEdgeBlack(
 }
 
 export class BlackEdgeFloodFiller extends Processor {
+  resultLabel = "Edge Artifacts Cleared";
+  
   process() {
     const sourceImgData = this.source.imgData;
     const imgData = floodFillEdgeBlack(this.ctx, sourceImgData, this.width, this.height);

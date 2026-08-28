@@ -41,6 +41,8 @@ export function dilateDarkPixels(
 }
 
 export class PixelExpander extends Processor {
+  resultLabel = "Expanded Black";
+  
   process() {
     const sourceImgData = this.source.imgData;
     const imgData = dilateDarkPixels(this.ctx, sourceImgData, this.width, this.height);

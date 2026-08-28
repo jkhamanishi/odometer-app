@@ -11,6 +11,8 @@ export function rescale(
 }
 
 export class Rescaler extends Processor {
+  resultLabel = "Rescaled";
+  
   process() {
     const source = this.source.canvas;
     const rawCtx = this.ctx;

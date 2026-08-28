@@ -5,8 +5,8 @@ export function smooth(
   sourceCanvas: HTMLCanvasElement,
   width: number,
   height: number,
-  blurRadius = 2.5,
-  threshold = 190
+  blurRadius = 4.0,
+  threshold = 200
 ): ImageData {
   ctx.filter = `blur(${blurRadius}px)`;
   ctx.drawImage(sourceCanvas, 0, 0);
@@ -26,6 +26,8 @@ export function smooth(
 }
 
 export class Smoother extends Processor {
+  resultLabel = "Edges Smoothed";
+  
   process() {
     const imgData = smooth(this.ctx, this.source.canvas, this.width, this.height);
     return this.createResult(imgData);
