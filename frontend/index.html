@@ -58,7 +58,10 @@
 
         <div class="field">
           <label for="odometer">Odometer Value:</label>
-          <input type="number" id="odometer" required placeholder="e.g. 84520" />
+          <div class="odometer-input">
+            <input type="number" id="odometer" required placeholder="e.g. 84520" />
+            <span class="odometer-unit">km</span>
+          </div>
         </div>
 
         <button type="submit" id="submitBtn">Submit Reading</button>
