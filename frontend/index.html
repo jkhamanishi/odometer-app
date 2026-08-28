@@ -25,8 +25,8 @@
           <div id="previewContainer">
             <div id="cropperWrapper" class="cropper-wrapper"></div>
 
-            <button type="button" id="btnCrop" class="btn-step">
-              ✂️ 1. Crop Selection
+            <button type="button" id="btnAnalyze" class="btn-step">
+              ✨ Crop, Process &amp; Read Image
             </button>
 
             <!-- Live Crop Preview Container -->
@@ -34,10 +34,6 @@
               <p class="image-preview-label">Cropped Selection:</p>
               <div id="croppedPreviewWrapper" class="image-preview-frame"></div>
             </div>
-
-            <button type="button" id="btnProcess" class="btn-step" disabled>
-              🎛️ 2. Process Image
-            </button>
 
             <!-- Processed OCR Debug Canvas Container -->
             <details id="debugOcrContainer" class="debug-steps">
@@ -50,10 +46,6 @@
               <p class="image-preview-label">Final Processed Image:</p>
               <div id="processedPreviewWrapper" class="image-preview-frame"></div>
             </div>
-
-            <button type="button" id="btnRead" class="btn-step" disabled>
-              🔍 3. Read Image
-            </button>
 
             <p id="ocrStatus" class="ocr-status"></p>
           </div>

@@ -2,8 +2,6 @@ import { processImage, recognizeDigits, ProcessDebugSteps } from './imageProcess
 import { setupCropperInstance, getCroppedNativeCanvas, destroyCropper } from './cropperManager';
 
 let selectedFile: File | null = null;
-let croppedCanvas: HTMLCanvasElement | null = null;
-let processedCanvas: HTMLCanvasElement | null = null;
 
 export function getSelectedFile(): File | null {
   return selectedFile;
@@ -14,9 +12,7 @@ export function initFileHandlers(onOdometerDetected: (value: string) => void): v
   const btnCamera = document.getElementById('btnCamera') as HTMLButtonElement | null;
   const inputGallery = document.getElementById('inputGallery') as HTMLInputElement | null;
   const inputCamera = document.getElementById('inputCamera') as HTMLInputElement | null;
-  const btnCrop = document.getElementById('btnCrop') as HTMLButtonElement | null;
-  const btnProcess = document.getElementById('btnProcess') as HTMLButtonElement | null;
-  const btnRead = document.getElementById('btnRead') as HTMLButtonElement | null;
+  const btnAnalyze = document.getElementById('btnAnalyze') as HTMLButtonElement | null;
 
   btnGallery?.addEventListener('click', () => inputGallery?.click());
   btnCamera?.addEventListener('click', () => inputCamera?.click());
@@ -35,48 +31,27 @@ export function initFileHandlers(onOdometerDetected: (value: string) => void): v
     }
   });
 
-  btnCrop?.addEventListener('click', cropSelection);
-  btnProcess?.addEventListener('click', runProcessing);
-  btnRead?.addEventListener('click', () => readProcessedImage(onOdometerDetected));
+  btnAnalyze?.addEventListener('click', () => analyzeImage(onOdometerDetected));
 }
 
-function setStageEnabled(id: string, enabled: boolean): void {
-  const btn = document.getElementById(id) as HTMLButtonElement | null;
-  if (btn) btn.disabled = !enabled;
-}
-
-async function cropSelection(): Promise<void> {
+async function analyzeImage(onOdometerDetected: (value: string) => void): Promise<void> {
   const ocrStatus = document.getElementById('ocrStatus') as HTMLParagraphElement | null;
-
   const canvas = await getCroppedNativeCanvas();
   if (!canvas) {
     if (ocrStatus) ocrStatus.innerText = '⚠️ Drag a selection over the digits first.';
     return;
   }
 
-  croppedCanvas = canvas;
-  processedCanvas = null;
-
   renderCroppedPreview(canvas);
   hideIntermediateSteps();
   hideProcessedPreview();
 
-  setStageEnabled('btnProcess', true);
-  setStageEnabled('btnRead', false);
+  const btnAnalyze = document.getElementById('btnAnalyze') as HTMLButtonElement | null;
+  const originalLabel = btnAnalyze?.innerText;
 
-  if (ocrStatus) ocrStatus.innerText = '✂️ Cropped. Now process the image.';
-}
-
-async function runProcessing(): Promise<void> {
-  const ocrStatus = document.getElementById('ocrStatus') as HTMLParagraphElement | null;
-  if (!croppedCanvas) return;
-
-  const btnProcess = document.getElementById('btnProcess') as HTMLButtonElement | null;
-  const originalLabel = btnProcess?.innerText;
-
-  if (btnProcess) {
-    btnProcess.disabled = true;
-    btnProcess.setAttribute('aria-busy', 'true');
+  if (btnAnalyze) {
+    btnAnalyze.disabled = true;
+    btnAnalyze.setAttribute('aria-busy', 'true');
   }
   if (ocrStatus) ocrStatus.innerText = 'Processing image...';
 
@@ -84,36 +59,25 @@ async function runProcessing(): Promise<void> {
   await new Promise<void>((resolve) => setTimeout(resolve, 0));
 
   try {
-    const { finalCanvas, debugSteps } = processImage(croppedCanvas);
-    processedCanvas = finalCanvas;
-
+    const { finalCanvas, debugSteps } = processImage(canvas);
     renderIntermediateSteps(debugSteps);
     renderProcessedPreview(finalCanvas);
-    setStageEnabled('btnRead', true);
 
-    if (ocrStatus) ocrStatus.innerText = '🎛️ Processed. Now read the image.';
-  } finally {
-    if (btnProcess) {
-      btnProcess.innerText = originalLabel ?? '🎛️ 2. Process Image';
-      btnProcess.removeAttribute('aria-busy');
-      btnProcess.disabled = false;
+    if (ocrStatus) ocrStatus.innerText = 'Scanning digits...';
+    const text = await recognizeDigits(finalCanvas);
+
+    if (text) {
+      if (ocrStatus) ocrStatus.innerText = `Extracted digits: ${text}`;
+      onOdometerDetected(text);
+    } else {
+      if (ocrStatus) ocrStatus.innerText = '⚠️ Could not clearly read numbers. Try cropping tighter around the digits.';
     }
-  }
-}
-
-async function readProcessedImage(onOdometerDetected: (value: string) => void): Promise<void> {
-  const ocrStatus = document.getElementById('ocrStatus') as HTMLParagraphElement | null;
-  if (!processedCanvas) return;
-
-  if (ocrStatus) ocrStatus.innerText = 'Scanning digits...';
-
-  const text = await recognizeDigits(processedCanvas);
-
-  if (text) {
-    if (ocrStatus) ocrStatus.innerText = `Extracted digits: ${text}`;
-    onOdometerDetected(text);
-  } else {
-    if (ocrStatus) ocrStatus.innerText = '⚠️ Could not clearly read numbers. Try cropping tighter around the digits.';
+  } finally {
+    if (btnAnalyze) {
+      btnAnalyze.innerText = originalLabel ?? '✨ Crop, Process & Read Image';
+      btnAnalyze.removeAttribute('aria-busy');
+      btnAnalyze.disabled = false;
+    }
   }
 }
 
@@ -229,12 +193,8 @@ function renderIntermediateSteps(debugSteps: ProcessDebugSteps): void {
 
 export function resetFileUI(): void {
   selectedFile = null;
-  croppedCanvas = null;
-  processedCanvas = null;
   destroyCropper();
 
-  setStageEnabled('btnProcess', false);
-  setStageEnabled('btnRead', false);
   hideIntermediateSteps();
   hideProcessedPreview();
 
