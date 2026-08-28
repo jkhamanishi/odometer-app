@@ -22,6 +22,7 @@ export function setupCropperInstance(
   imageObj.onload = () => {
     const ratio = imageObj!.naturalWidth / imageObj!.naturalHeight;
     container.style.aspectRatio = `${ratio}`;
+    container.style.maxWidth = `${ratio * 60}vh`;
     container.style.position = 'relative';
 
     activeCanvas = document.createElement('canvas');
