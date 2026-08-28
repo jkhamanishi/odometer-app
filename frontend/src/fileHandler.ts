@@ -46,6 +46,7 @@ async function analyzeImage(onOdometerDetected: (value: string) => void): Promis
   renderCroppedPreview(canvas);
   hideIntermediateSteps();
   hideProcessedPreview();
+  hideProcessingDetails();
 
   const btnAnalyze = document.getElementById('btnAnalyze') as HTMLButtonElement | null;
   const originalLabel = btnAnalyze?.innerText;
@@ -170,6 +171,17 @@ function renderProcessedPreview(finalCanvas: HTMLCanvasElement): void {
 
     wrapper.appendChild(img);
     container.style.display = 'block';
+    const processingDetails = document.getElementById('imageProcessingDetails') as HTMLDetailsElement | null;
+    if (processingDetails) processingDetails.style.display = 'block';
+  }
+}
+
+function hideProcessingDetails(): void {
+  const processingDetails = document.getElementById('imageProcessingDetails') as HTMLDetailsElement | null;
+
+  if (processingDetails) {
+    processingDetails.open = false;
+    processingDetails.style.display = 'none';
   }
 }
 
@@ -242,13 +254,14 @@ export function resetFileUI(): void {
   const fileNameDisplay = document.getElementById('fileNameDisplay') as HTMLParagraphElement | null;
   const ocrStatus = document.getElementById('ocrStatus') as HTMLParagraphElement | null;
   const croppedPreviewContainer = document.getElementById('croppedPreviewContainer') as HTMLDivElement | null;
-  const debugOcrContainer = document.getElementById('debugOcrContainer') as HTMLDivElement | null;
+  const debugOcrContainer = document.getElementById('debugOcrContainer') as HTMLDetailsElement | null;
   const odometer = document.getElementById('odometer') as HTMLInputElement | null;
 
   if (cropperWrapper) cropperWrapper.innerHTML = '';
   if (previewContainer) previewContainer.style.display = 'none';
   if (croppedPreviewContainer) croppedPreviewContainer.style.display = 'none';
   if (debugOcrContainer) debugOcrContainer.style.display = 'none';
+  hideProcessingDetails();
   if (fileNameDisplay) fileNameDisplay.innerText = 'No photo selected';
   if (ocrStatus) ocrStatus.innerText = '';
   if (odometer) odometer.value = '';

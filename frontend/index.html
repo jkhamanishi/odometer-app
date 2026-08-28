@@ -29,23 +29,24 @@
               ✨ Crop, Process &amp; Read Image
             </button>
 
-            <!-- Live Crop Preview Container -->
-            <div id="croppedPreviewContainer" class="image-preview">
-              <p class="image-preview-label">Cropped Selection:</p>
-              <div id="croppedPreviewWrapper" class="image-preview-frame"></div>
-            </div>
+            <details id="imageProcessingDetails" class="image-processing-details">
+              <summary>View Image Processing</summary>
 
-            <!-- Processed OCR Debug Canvas Container -->
-            <details id="debugOcrContainer" class="debug-steps">
-              <summary>Pipeline Intermediate Steps</summary>
-              <div id="debugOcrWrapper" class="debug-steps-body"></div>
+              <div id="croppedPreviewContainer" class="image-preview">
+                <p class="image-preview-label">Cropped Selection:</p>
+                <div id="croppedPreviewWrapper" class="image-preview-frame"></div>
+              </div>
+
+              <details id="debugOcrContainer" class="debug-steps">
+                <summary>Pipeline Intermediate Steps</summary>
+                <div id="debugOcrWrapper" class="debug-steps-body"></div>
+              </details>
+
+              <div id="processedPreviewContainer" class="image-preview">
+                <p class="image-preview-label">Final Processed Image:</p>
+                <div id="processedPreviewWrapper" class="image-preview-frame"></div>
+              </div>
             </details>
-
-            <!-- Final Processed Image -->
-            <div id="processedPreviewContainer" class="image-preview">
-              <p class="image-preview-label">Final Processed Image:</p>
-              <div id="processedPreviewWrapper" class="image-preview-frame"></div>
-            </div>
 
             <p id="ocrStatus" class="ocr-status"></p>
           </div>
@@ -53,8 +54,6 @@
           <input type="file" id="inputGallery" class="hidden-input" accept="image/*" />
           <input type="file" id="inputCamera" class="hidden-input" accept="image/*" capture="environment" />
         </div>
-
-        <br/>
 
         <div class="field">
           <label for="odometer">Odometer Value:</label>
