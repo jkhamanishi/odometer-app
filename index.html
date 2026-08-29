@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Odometer Tracker</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script type="module" crossorigin src="/assets/index-Cgb_cMWC.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-_lpL1TD9.css">
+  </head>
+  <body>
+    <div id="app">
+      <h2>Submit Odometer Reading</h2>
+      
+      <form id="odometerForm">
+        <div class="field">
+          <label for="gasDeploymentId">GAS Deployment ID:</label>
+          <input type="password" id="gasDeploymentId" required autocomplete="off" placeholder="Enter deployment ID" />
+        </div>
+
+        <div class="field">
+          <label>Odometer Photo:</label>
+          
+          <div class="button-group">
+            <button type="button" id="btnGallery">📁 Choose from Gallery</button>
+            <button type="button" id="btnCamera">📷 Take Photo</button>
+          </div>
+          
+          <p id="fileNameDisplay" class="file-name">No photo selected</p>
+
+          <!-- Photo Preview Element -->
+          <div id="previewContainer">
+            <div id="cropperWrapper" class="cropper-wrapper"></div>
+
+            <button type="button" id="btnAnalyze" class="btn-step">
+              ✨ Crop, Process &amp; Read Image
+            </button>
+
+            <details id="imageProcessingDetails" class="image-processing-details">
+              <summary>View Image Processing</summary>
+
+              <div id="croppedPreviewContainer" class="image-preview">
+                <p class="image-preview-label">Cropped Selection:</p>
+                <div id="croppedPreviewWrapper" class="image-preview-frame"></div>
+              </div>
+
+              <details id="debugOcrContainer" class="debug-steps">
+                <summary>Pipeline Intermediate Steps</summary>
+                <div id="debugOcrWrapper" class="debug-steps-body"></div>
+              </details>
+
+              <div id="processedPreviewContainer" class="image-preview">
+                <p class="image-preview-label">Final Processed Image:</p>
+                <div id="processedPreviewWrapper" class="image-preview-frame"></div>
+              </div>
+            </details>
+
+            <p id="ocrStatus" class="ocr-status"></p>
+          </div>
+
+          <input type="file" id="inputGallery" class="hidden-input" accept="image/*" />
+          <input type="file" id="inputCamera" class="hidden-input" accept="image/*" capture="environment" />
+        </div>
+
+        <div class="field">
+          <label for="odometer">Odometer Value:</label>
+          <div class="odometer-input">
+            <input type="number" id="odometer" required placeholder="e.g. 84520" />
+            <span class="odometer-unit">km</span>
+          </div>
+        </div>
+
+        <div class="reading-datetime">
+          <div class="field">
+            <label for="readingDate">Reading Date:</label>
+            <input type="date" id="readingDate" required />
+          </div>
+
+          <div class="field">
+            <label for="readingTime">Reading Time:</label>
+            <input type="time" id="readingTime" required />
+          </div>
+        </div>
+
+        <button type="submit" id="submitBtn">Submit Reading</button>
+      </form>
+
+      <p id="status"></p>
+    </div>
+
+  </body>
+</html>
