@@ -3,10 +3,12 @@ import { getSelectedFile, resetFileUI } from '../fileHandler';
 import { fileToBase64 } from './fileToBase64';
 
 const GAS_DEPLOYMENT_ID_STORAGE_KEY = 'gasDeploymentId';
+const USERNAME_STORAGE_KEY = 'username';
 
 interface FormElements {
   statusText: HTMLParagraphElement;
   submitBtn: HTMLButtonElement;
+  usernameInput: HTMLInputElement;
   gasDeploymentIdInput: HTMLInputElement;
   recordTypeInputs: NodeListOf<HTMLInputElement>;
   odometerInput: HTMLInputElement;
@@ -23,6 +25,7 @@ export async function handleFormSubmit(
   const {
     statusText,
     submitBtn,
+    usernameInput,
     gasDeploymentIdInput,
     recordTypeInputs,
     odometerInput,
@@ -30,8 +33,14 @@ export async function handleFormSubmit(
     readingTimeInput
   } = elements;
 
+  const username = usernameInput.value.trim();
   const gasDeploymentId = gasDeploymentIdInput.value.trim();
   const recordType = Array.from(recordTypeInputs).find((input) => input.checked)?.value ?? '';
+
+  if (!username) {
+    statusText.innerText = 'Please enter your username.';
+    return;
+  }
 
   if (!gasDeploymentId) {
     statusText.innerText = 'Please enter your GAS deployment ID.';
@@ -43,6 +52,7 @@ export async function handleFormSubmit(
     return;
   }
 
+  localStorage.setItem(USERNAME_STORAGE_KEY, username);
   localStorage.setItem(GAS_DEPLOYMENT_ID_STORAGE_KEY, gasDeploymentId);
 
   statusText.innerText = 'Uploading data...';
@@ -58,6 +68,7 @@ export async function handleFormSubmit(
   }
 
   const payload: Payload = {
+    username: username,
     odometer: odometerInput.value,
     recordType: recordType,
     readingDate: readingDateInput.value,
@@ -72,6 +83,7 @@ export async function handleFormSubmit(
     if (result.status === 'success') {
       statusText.innerText = 'Submitted successfully!';
       odometerInput.closest('form')?.reset();
+      usernameInput.value = username;
       gasDeploymentIdInput.value = gasDeploymentId;
       resetFileUI();
     } else {

@@ -19,6 +19,7 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
   try {
     // 1. Parse incoming JSON payload from external front-end
     const data = JSON.parse(e.postData.contents);
+    const username = data.username;
     const odometerReading = data.odometer;
     const recordType = data.recordType;
     const recordedAt = buildRecordedAt(data.readingDate, data.readingTime);
@@ -54,7 +55,7 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
       throw new Error('Sheet "Odometer Readings" not found');
     }
 
-    sheet.appendRow([submittedAt, recordedAt, recordType, odometerReading, fileLink]);
+    sheet.appendRow([username, submittedAt, recordedAt, recordType, odometerReading, fileLink]);
 
     // 4. Return success response
     return ContentService.createTextOutput(JSON.stringify({

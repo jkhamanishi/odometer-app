@@ -9,7 +9,7 @@
     "bundle": "node esbuild.config.js",
     "build": "npm run tsc && npm run bundle",
     "push": "npm run build && clasp push",
-    "deploy": "clasp deploy -i"
+    "deploy": "npm run push && clasp deploy -i"
   },
   "devDependencies": {
     "@google/clasp": "^3.4.1",
