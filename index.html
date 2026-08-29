@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Odometer Tracker</title>
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <script type="module" crossorigin src="./assets/index-B5x4-w5R.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-_lpL1TD9.css">
+    <script type="module" crossorigin src="./assets/index-NUETKkZF.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-B_1u8Ttj.css">
   </head>
   <body>
     <div id="app">
@@ -16,6 +16,20 @@
         <div class="field">
           <label for="gasDeploymentId">GAS Deployment ID:</label>
           <input type="password" id="gasDeploymentId" required autocomplete="off" placeholder="Enter deployment ID" />
+        </div>
+
+        <div class="field">
+          <span class="field-label">Record Type:</span>
+          <div class="radio-group" role="radiogroup" aria-label="Record Type">
+            <label class="radio-option" for="startTrip">
+              <input type="radio" id="startTrip" name="recordType" value="Start Trip" required checked />
+              <span>Start Trip</span>
+            </label>
+            <label class="radio-option" for="endTrip">
+              <input type="radio" id="endTrip" name="recordType" value="End Trip" required />
+              <span>End Trip</span>
+            </label>
+          </div>
         </div>
 
         <div class="field">
