@@ -12,11 +12,10 @@ export interface ApiResponse {
   fileUrl?: string;
 }
 
-const SCRIPT_ID = import.meta.env.VITE_GAS_DEPLOYMENT_ID;
-const SCRIPT_URL = `https://script.google.com/macros/s/${SCRIPT_ID}/exec`;
+export async function callAPI(deploymentId: string, payload: Payload): Promise<ApiResponse> {
+  const scriptUrl = `https://script.google.com/macros/s/${deploymentId}/exec`;
 
-export async function callAPI(payload: Payload): Promise<ApiResponse> {
-  const response = await fetch(SCRIPT_URL, {
+  const response = await fetch(scriptUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload)
