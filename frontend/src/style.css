@@ -101,6 +101,7 @@ label {
 input[type="number"],
 input[type="date"],
 input[type="time"],
+input[type="text"],
 input[type="password"] {
   width: 100%;
   padding: 12px;
@@ -115,6 +116,7 @@ input[type="password"] {
 input[type="number"]:focus,
 input[type="date"]:focus,
 input[type="time"]:focus,
+input[type="text"]:focus,
 input[type="password"]:focus {
   border-color: var(--primary-color);
 }
