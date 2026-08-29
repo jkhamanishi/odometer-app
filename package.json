@@ -5,14 +5,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "install": "npm --prefix frontend install && npm --prefix backend install",
+    "i": "npm run install",
     "dev": "npm --prefix frontend run dev",
     "build": "npm --prefix frontend run build",
     "preview": "npm --prefix frontend run preview",
     "pull": "npm --prefix backend run pull",
     "push": "npm --prefix backend run push",
     "watch": "npm --prefix backend run watch"
-  },
-  "dependencies": {
-    "exifr": "^7.1.3"
   }
 }
