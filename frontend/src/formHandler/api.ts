@@ -12,7 +12,8 @@ export interface ApiResponse {
   fileUrl?: string;
 }
 
-const SCRIPT_URL = import.meta.env.VITE_APPS_SCRIPT_URL;
+const SCRIPT_ID = import.meta.env.VITE_GAS_DEPLOYMENT_ID;
+const SCRIPT_URL = `https://script.google.com/macros/s/${SCRIPT_ID}/exec`;
 
 export async function callAPI(payload: Payload): Promise<ApiResponse> {
   const response = await fetch(SCRIPT_URL, {
