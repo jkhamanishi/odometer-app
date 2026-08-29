@@ -5,6 +5,7 @@ const GAS_DEPLOYMENT_ID_STORAGE_KEY = 'gasDeploymentId';
 export function initFormHandler(): void {
   const form = document.getElementById('odometerForm') as HTMLFormElement | null;
   const gasDeploymentIdInput = document.getElementById('gasDeploymentId') as HTMLInputElement | null;
+  const recordTypeInputs = document.querySelectorAll<HTMLInputElement>('input[name="recordType"]');
   const odometerInput = document.getElementById('odometer') as HTMLInputElement | null;
   const readingDateInput = document.getElementById('readingDate') as HTMLInputElement | null;
   const readingTimeInput = document.getElementById('readingTime') as HTMLInputElement | null;
@@ -16,6 +17,7 @@ export function initFormHandler(): void {
     !statusText ||
     !submitBtn ||
     !gasDeploymentIdInput ||
+    !recordTypeInputs.length ||
     !odometerInput ||
     !readingDateInput ||
     !readingTimeInput
@@ -28,6 +30,7 @@ export function initFormHandler(): void {
       statusText,
       submitBtn,
       gasDeploymentIdInput,
+      recordTypeInputs,
       odometerInput,
       readingDateInput,
       readingTimeInput

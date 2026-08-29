@@ -20,6 +20,7 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
     // 1. Parse incoming JSON payload from external front-end
     const data = JSON.parse(e.postData.contents);
     const odometerReading = data.odometer;
+    const recordType = data.recordType;
     const recordedAt = buildRecordedAt(data.readingDate, data.readingTime);
     const submittedAt = new Date();
     const base64Image = data.image; // e.g. "data:image/jpeg;base64,/9j/4AA..."
@@ -53,7 +54,7 @@ export function doPost(e: GoogleAppsScript.Events.DoPost) {
       throw new Error('Sheet "Odometer Readings" not found');
     }
 
-    sheet.appendRow([submittedAt, recordedAt, odometerReading, fileLink]);
+    sheet.appendRow([submittedAt, recordedAt, recordType, odometerReading, fileLink]);
 
     // 4. Return success response
     return ContentService.createTextOutput(JSON.stringify({

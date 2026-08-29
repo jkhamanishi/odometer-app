@@ -8,6 +8,7 @@ interface FormElements {
   statusText: HTMLParagraphElement;
   submitBtn: HTMLButtonElement;
   gasDeploymentIdInput: HTMLInputElement;
+  recordTypeInputs: NodeListOf<HTMLInputElement>;
   odometerInput: HTMLInputElement;
   readingDateInput: HTMLInputElement;
   readingTimeInput: HTMLInputElement;
@@ -23,15 +24,22 @@ export async function handleFormSubmit(
     statusText,
     submitBtn,
     gasDeploymentIdInput,
+    recordTypeInputs,
     odometerInput,
     readingDateInput,
     readingTimeInput
   } = elements;
 
   const gasDeploymentId = gasDeploymentIdInput.value.trim();
+  const recordType = Array.from(recordTypeInputs).find((input) => input.checked)?.value ?? '';
 
   if (!gasDeploymentId) {
     statusText.innerText = 'Please enter your GAS deployment ID.';
+    return;
+  }
+
+  if (!recordType) {
+    statusText.innerText = 'Please choose a record type.';
     return;
   }
 
@@ -51,6 +59,7 @@ export async function handleFormSubmit(
 
   const payload: Payload = {
     odometer: odometerInput.value,
+    recordType: recordType,
     readingDate: readingDateInput.value,
     readingTime: readingTimeInput.value,
     image: base64Image,

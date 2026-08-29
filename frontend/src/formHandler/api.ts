@@ -1,5 +1,6 @@
 export interface Payload {
   odometer: string;
+  recordType: string;
   readingDate: string;
   readingTime: string;
   image: string | null;
